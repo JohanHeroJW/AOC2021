@@ -30,6 +30,7 @@ public class Day1 {
   }
 
   public static String part2(String input) {
+
     List<Integer> list = Stream.of(input.split("\n")).map(Integer::parseInt)
         .collect(Collectors.toList());
     int sum = 0;
