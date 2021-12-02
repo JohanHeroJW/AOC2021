@@ -1,4 +1,4 @@
-package com.aoc2021.days;
+package com.aoc2021;
 
 import static com.aoc2021.util.DayUtils.readFileAsString;
 
