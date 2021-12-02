@@ -1,10 +1,10 @@
 package com.aoc2021;
 
-import com.aoc2021.days.Day1;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-class Day1Test {
+class Aoc2021Tests {
 
   @Test
   void day1Test() {
@@ -14,5 +14,12 @@ class Day1Test {
     String inputPart2 = "607\n618\n618\n617\n647\n716\n769\n792\n";
 
     Assertions.assertEquals("5", Day1.part2(inputPart2));
+  }
+
+  @Test
+  void day2Test() {
+    String input = "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2";
+    Assertions.assertEquals("150", Day2.part1(input));
+    Assertions.assertEquals("900", Day2.part2(input));
   }
 }
