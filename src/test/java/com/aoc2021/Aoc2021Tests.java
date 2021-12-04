@@ -22,4 +22,11 @@ class Aoc2021Tests {
     Assertions.assertEquals("150", Day2.part1(input));
     Assertions.assertEquals("900", Day2.part2(input));
   }
+
+  @Test
+  void day3Test() {
+    String input = "00100\n11110\n10110\n10111\n10101\n01111\n00111\n11100\n10000\n11001\n00010\n01010";
+    Assertions.assertEquals(198, Day3.part1(input));
+    Assertions.assertEquals(230, Day3.part2(input));
+  }
 }
