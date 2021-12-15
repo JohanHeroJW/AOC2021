@@ -63,4 +63,20 @@ class Aoc2021Tests {
     Assertions.assertEquals(4512, Day4.startBingo(bingoTiles,bingoNumbers));
      Assertions.assertEquals(1924, Day4.startBingo2(bingoTiles,bingoNumbers));
   }
+
+  @Test
+  void day5Test() {
+    String input = "0,9 -> 5,9\n"
+        + "8,0 -> 0,8\n"
+        + "9,4 -> 3,4\n"
+        + "2,2 -> 2,1\n"
+        + "7,0 -> 7,4\n"
+        + "6,4 -> 2,0\n"
+        + "0,9 -> 2,9\n"
+        + "3,4 -> 1,4\n"
+        + "0,0 -> 8,8\n"
+        + "5,5 -> 8,2";
+    Assertions.assertEquals(5, Day5.part1(input));
+    Assertions.assertEquals(12, Day5.part2(input));
+  }
 }
