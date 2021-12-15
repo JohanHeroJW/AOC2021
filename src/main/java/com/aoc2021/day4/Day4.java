@@ -1,4 +1,4 @@
-package com.aoc2021;
+package com.aoc2021.day4;
 
 import static com.aoc2021.util.DayUtils.readFileAsString;
 
@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,63 +17,56 @@ public class Day4 {
     List<Integer> bingoNumbers = Arrays.stream(input.substring(0, input.indexOf("\n")).split(","))
         .map(Integer::parseInt).collect(
             Collectors.toList());
-    List<BingoTile> bingoTiles = getTiles();
+    List<BingoTile> bingoTiles = getTiles("src/main/resources/input4.txt");
 
-    HashMap<List<Integer>, Integer> bingo = startBingo(bingoTiles, bingoNumbers);
-    //List<HashMap<List<Integer>, Integer>> bingo2 = startBingo(bingoTiles, bingoNumbers);
-    List<Integer> day1 = bingo.keySet()
-        .stream()
-        .findFirst()
-        .get()
-        .stream()
-        .filter(i -> i != -1)
-        .collect(
-            Collectors.toList());
+    int part1 = startBingo(bingoTiles, bingoNumbers);
+    int part2 = startBingo2(bingoTiles, bingoNumbers);
 
+    System.out.println("Day1: " + part1);
+    System.out.println("Day1: " + part2);
 
-    int sumDay1 = day1.stream().mapToInt(Integer::intValue).sum();
-    System.out.println("Day1: " + sumDay1 * bingo.get(bingo.keySet().stream().findFirst().get()));
   }
 
-  private static HashMap<List<Integer>, Integer> startBingo(List<BingoTile> bingoTiles,
-      List<Integer> bingoNumber) {
+  public static int startBingo(List<BingoTile> bingoTiles, List<Integer> bingoNumber) {
 
+    int firstBingo = 0;
     for (int j = 0; j < bingoNumber.size(); j++) {
       for (int i = 0; i < bingoTiles.size(); i++) {
-        int index = bingoTiles.get(i).getBingoTile().indexOf(bingoNumber.get(j));
-        if (index != -1) {
-          bingoTiles.get(i).getBingoTile().set(index, -1);
-          if (isBingo(bingoTiles.get(i))) {
-            HashMap<List<Integer>, Integer> h = new HashMap<>();
-            h.put(bingoTiles.get(i).getBingoTile(), bingoNumber.get(j));
-            return h;
+        if (!bingoTiles.get(i).isHadBingo()) {
+          int index = bingoTiles.get(i).getBingoTile().indexOf(bingoNumber.get(j));
+          if (index != -1) {
+            bingoTiles.get(i).getBingoTile().set(index, -1);
+            if (isBingo(bingoTiles.get(i))) {
+              firstBingo = bingoTiles.get(i).getBingoTile().stream().filter(k -> k != -1)
+                  .mapToInt(Integer::intValue).sum() * bingoNumber.get(j);
+              return firstBingo;
+            }
           }
         }
       }
     }
-    return null;
+    return -1;
   }
 
-//  private static HashMap<List<Integer>, Integer> startBingo2(
-//      List<BingoTile> bingoTiles,
-//      List<Integer> bingoNumber) {
-//
-//    HashMap<List<Integer>, Integer> h = new HashMap<>();
-//
-//    for (int j = 0; j < bingoNumber.size(); j++) {
-//      for (int i = 0; i < bingoTiles.size(); i++) {
-//        int index = bingoTiles.get(i).getBingoTile().indexOf(bingoNumber.get(j));
-//        if (index != -1) {
-//          bingoTiles.get(i).getBingoTile().set(index, -1);
-//          if (isBingo(bingoTiles.get(i))) {
-//            h.put(bingoTiles.get(i).getBingoTile(), bingoNumber.get(j));
-//
-//          }
-//        }
-//      }
-//    }
-//    return h;
-//  }
+  public static int startBingo2(List<BingoTile> bingoTiles, List<Integer> bingoNumber) {
+
+    int lastBingo = 0;
+    for (int j = 0; j < bingoNumber.size(); j++) {
+      for (int i = 0; i < bingoTiles.size(); i++) {
+        if (!bingoTiles.get(i).isHadBingo()) {
+          int index = bingoTiles.get(i).getBingoTile().indexOf(bingoNumber.get(j));
+          if (index != -1) {
+            bingoTiles.get(i).getBingoTile().set(index, -1);
+            if (isBingo(bingoTiles.get(i))) {
+              lastBingo = bingoTiles.get(i).getBingoTile().stream().filter(k -> k != -1)
+                  .mapToInt(Integer::intValue).sum() * bingoNumber.get(j);
+            }
+          }
+        }
+      }
+    }
+    return lastBingo;
+  }
 
   /*
     0-4             0   1   2   3   4
@@ -90,7 +82,7 @@ public class Day4 {
       List<Integer> arr = bingoTile.getBingoTile();
       if (arr.get(i).equals(-1) && arr.get(i + 1).equals(-1) && arr.get(i + 2).equals(-1)
           && arr.get(i + 3).equals(-1) && arr.get(i + 4).equals(-1)) {
-        System.out.println("BINGO!!!!!");
+        bingoTile.setHadBingo(true);
         return true;
       }
     }
@@ -99,21 +91,19 @@ public class Day4 {
       List<Integer> arr = bingoTile.getBingoTile();
       if (arr.get(i).equals(-1) && arr.get(i + 5).equals(-1) && arr.get(i + 10).equals(-1)
           && arr.get(i + 15).equals(-1) && arr.get(i + 20).equals(-1)) {
-        System.out.println("BINGO!!!!!");
+        bingoTile.setHadBingo(true);
         return true;
       }
-
     }
     return false;
   }
 
-
-  private static List<BingoTile> getTiles() throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader("src/main/resources/input4.txt"));
-    String numbers = br.readLine();
+  public static List<BingoTile> getTiles(String filePath) throws IOException {
+    BufferedReader br = new BufferedReader(new FileReader(filePath));
     List<BingoTile> bingoTileList = new ArrayList<>();
     String st;
     br.readLine();
+    br.readLine(); // throws the first two lines
     while ((st = br.readLine()) != null) {
       List<Integer> tempList = new ArrayList<>();
       for (int i = 0; i < 5; i++) {
@@ -129,16 +119,5 @@ public class Day4 {
     }
     return bingoTileList;
   }
-
-
-  public static int part1(String input) {
-
-    return 1;
-  }
-
-  private static boolean part2(String input) {
-    return false;
-  }
-
 
 }

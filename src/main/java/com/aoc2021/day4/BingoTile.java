@@ -1,4 +1,4 @@
-package com.aoc2021;
+package com.aoc2021.day4;
 
 import java.util.List;
 
@@ -11,11 +11,10 @@ public class BingoTile {
   15-19           15  16  17  18  19
   20-24           20  21  22  23  24
   */
-  public BingoTile(List<Integer> bingoTile, List<Integer> drawnNumbers) {
+  private boolean hadBingo;
+  public BingoTile(List<Integer> bingoTile, boolean hadBingo) {
     this.bingoTile = bingoTile;
-  }
-
-  public BingoTile() {
+    this.hadBingo = false;
   }
 
   public BingoTile(List<Integer> tempList) {
@@ -27,4 +26,11 @@ public class BingoTile {
   }
 
 
+  public boolean isHadBingo() {
+    return hadBingo;
+  }
+
+  public void setHadBingo(boolean hadBingo) {
+    this.hadBingo = hadBingo;
+  }
 }
