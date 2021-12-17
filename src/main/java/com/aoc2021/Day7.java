@@ -31,15 +31,31 @@ public class Day7 {
   public static long part2(String input) {
     int[] arr = Arrays.stream(input.split(",")).map(String::trim).mapToInt(Integer::parseInt)
         .toArray();
-    int mean = getMean(arr);
-    int fuel = 0;
+    int meanRound = getMean(arr);
+    int meanFloor = getMeanFloor(arr);
+    int fuelRounded = 0;
+    int fuelFloored = 0;
     for (int j : arr) {
-      int rest = Math.abs(mean - j);
-      for (int k = 1; k <= rest; k++) {
-        fuel += k;
+      int restFloor = Math.abs(meanFloor - j);
+      int restRound = Math.abs(meanRound - j);
+      for (int k = 1; k <= restFloor; k++) {
+        fuelFloored += k;
+      }
+      for (int k = 1; k <= restRound; k++) {
+        fuelRounded += k;
       }
     }
-    return fuel;
+    return Math.min(fuelFloored, fuelRounded);
+  }
+
+  private static int getMeanFloor(int[] arr) {
+
+    double sum = 0;
+    for (int a : arr) {
+      sum += a;
+    }
+    double mean = (sum / arr.length);
+    return (int) Math.floor(mean);
   }
 
   private static int getMean(int[] arr) {
@@ -49,7 +65,7 @@ public class Day7 {
       sum += a;
     }
     double mean = (sum / arr.length);
-    return (int) Math.floor(mean);
+    return (int) Math.round(mean);
   }
 
   private static int getMedian(int[] arr) {
