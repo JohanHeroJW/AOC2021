@@ -89,4 +89,12 @@ class Aoc2021Tests {
     Assertions.assertEquals(5934, Day6.part1(input));
     Assertions.assertEquals(26984457539L, Day6.part2(input));
   }
+
+  @Test
+  void day7Test() {
+    String input = "16,1,2,0,4,2,7,1,2,14";
+
+    Assertions.assertEquals(37, Day7.part1(input));
+    Assertions.assertEquals(168, Day7.part2(input));
+  }
 }
