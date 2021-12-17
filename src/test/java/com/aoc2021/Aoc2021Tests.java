@@ -3,6 +3,7 @@ package com.aoc2021;
 import com.aoc2021.day4.BingoTile;
 import com.aoc2021.day4.Day4;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,5 +79,14 @@ class Aoc2021Tests {
         + "5,5 -> 8,2";
     Assertions.assertEquals(5, Day5.part1(input));
     Assertions.assertEquals(12, Day5.part2(input));
+  }
+
+  @Test
+  void day6Test() {
+    String input = "3,4,3,1,2";
+    Long s = Long.valueOf("1234567890123456890");
+
+    Assertions.assertEquals(5934, Day6.part1(input));
+    Assertions.assertEquals(26984457539L, Day6.part2(input));
   }
 }
